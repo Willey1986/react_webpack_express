@@ -28,9 +28,9 @@ export default class App extends Component {
     render() {
         const listItems = this.state.data.map(item => {
             return (
-                <TableRow>
+                <TableRow key={item.id}>
                     <TableRowColumn style={{color: 'red'}}>{item.id}</TableRowColumn>
-                    <TableRowColumn style={{fontWeight: 'bold'}}>{item.name} aaa</TableRowColumn>
+                    <TableRowColumn style={{fontWeight: 'bold'}}>{item.name}</TableRowColumn>
                 </TableRow>
             )
         });

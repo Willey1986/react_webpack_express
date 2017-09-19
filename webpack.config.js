@@ -2,28 +2,29 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-    template: './src/client/index.html',
-    filename: 'index.html'
-  })
+const development = process.env.NODE_ENV !== 'production';
+
+const prodEntry = './src/client/index.js'
+const devEntry = ['webpack-hot-middleware/client', 'react-hot-loader/patch', prodEntry]
+
+const prodPlugins = [
+    new HtmlWebpackPlugin({
+        template: './src/client/index.html',
+        filename: 'index.html'
+    })
+];
+const devPlugins = prodPlugins.concat(new webpack.HotModuleReplacementPlugin());
 
 module.exports = {
     cache: true,
     devtool: 'source-map',
-    entry: [
-        'webpack-hot-middleware/client',
-        'react-hot-loader/patch',
-        './src/client/index.js'
-    ],
+    entry: development ? devEntry : prodEntry,
     output: {
         path: path.join(__dirname, 'public'),
         filename: 'bundle.js',
         publicPath: ''
     },
-    plugins: [
-        HtmlWebpackPluginConfig,
-        new webpack.HotModuleReplacementPlugin()
-    ],
+    plugins: development ? devPlugins : prodPlugins,
     module: {
         loaders: [
             {
