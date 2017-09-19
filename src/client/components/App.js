@@ -1,4 +1,14 @@
 import React, {Component} from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar';
+import {
+    Table,
+    TableBody,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn,
+  } from 'material-ui/Table';
 
 export default class App extends Component {
     
@@ -16,12 +26,26 @@ export default class App extends Component {
     }
 
     render() {
-        const listItems = this.state.data.map(item => <li>{item.id + " --- " + item.name}</li>)
+        const listItems = this.state.data.map(item => {
+            return (
+                <TableRow>
+                    <TableRowColumn style={{color: 'red'}}>{item.id}</TableRowColumn>
+                    <TableRowColumn style={{fontWeight: 'bold'}}>{item.name} aaa</TableRowColumn>
+                </TableRow>
+            )
+        });
 
         return (
-            <div style={{textAlign: 'center'}}>
-                <ul>{listItems}</ul>
-            </div>
+            <MuiThemeProvider>
+                <div>
+                    <AppBar title="Title" iconClassNameRight="muidocs-icon-navigation-expand-more"/>
+                    <Table>
+                        <TableBody>
+                            {listItems}
+                        </TableBody>
+                    </Table>
+                </div>
+            </MuiThemeProvider>
         );
     }
 }
