@@ -1,25 +1,33 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
+
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+    template: './src/client/index.html',
+    filename: 'index.html'
+  })
 
 module.exports = {
-    entry: './src/index.jsx',
-    plugins: [
-        new CleanWebpackPlugin(['public']),
-        new HtmlWebpackPlugin({
-            title: 'TITLE',
-            filename: path.resolve(__dirname, 'public', 'index.html')
-        })
+    cache: true,
+    devtool: 'source-map',
+    entry: [
+        'webpack-hot-middleware/client',
+        'react-hot-loader/patch',
+        './src/client/index.js'
     ],
     output: {
-      filename: 'bundle.js',
-      path: path.resolve(__dirname, 'public', 'js')
+        path: path.join(__dirname, 'public'),
+        filename: 'bundle.js',
+        publicPath: ''
     },
-    devtool: 'inline-source-map',
+    plugins: [
+        HtmlWebpackPluginConfig,
+        new webpack.HotModuleReplacementPlugin()
+    ],
     module: {
         loaders: [
             {
-                test: /\.jsx$/,
+                test: /\.jsx?$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/
             }
